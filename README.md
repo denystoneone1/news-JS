@@ -54,7 +54,7 @@ pnpm start
 | `pnpm start` | Dev server with live reload |
 | `pnpm build` | Production build into `dist/` with `API_URL` from `.env` |
 | `pnpm build:deploy` | Production build that uses the proxy `https://rss-news-api.onrender.com/` (News API does not answer other domains) |
-| `pnpm deploy` | `build:deploy` and publish `dist/` to the `gh-pages` branch |
+| `pnpm run deploy` | `build:deploy` and publish `dist/` to the `gh-pages` branch |
 | `pnpm lint` | ESLint for all `.ts` files |
 
 ## Project structure
