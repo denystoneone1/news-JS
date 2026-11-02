@@ -1,35 +1,230 @@
+:root {
+    --ink: #14213d;
+    --paper: #ffffff;
+    --text: #121417;
+    --muted: #5b6270;
+    --rule: #e3e6ea;
+    --photo: #dde1e6;
+    --cat: var(--ink);
+
+    --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --sans: 'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
+
+    --page: 1440px;
+    --gutter: 16px;
+}
+
+@media (min-width: 768px) {
+    :root {
+        --gutter: 32px;
+    }
+}
+
+/* Цвет категории: работает для body, кнопок источников и вкладок категорий */
+[data-category='general'] {
+    --cat: #b3261e;
+}
+[data-category='business'] {
+    --cat: #0b6e4f;
+}
+[data-category='technology'] {
+    --cat: #4b3bc4;
+}
+[data-category='sports'] {
+    --cat: #0a5fb4;
+}
+[data-category='entertainment'] {
+    --cat: #a3166b;
+}
+[data-category='health'] {
+    --cat: #00756b;
+}
+[data-category='science'] {
+    --cat: #8a5300;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
-    color: #fff;
-    background: #17181c;
-    font-family: sans-serif;
-}
-
-header {
-    padding: 10px 30px;
-}
-
-header h1 {
-    font-size: 40px;
-    font-weight: 800;
-}
-
-footer {
-    height: 100px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--text);
+    background: var(--paper);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
 }
-footer .copyright {
+
+button {
+    font: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--cat);
+    outline-offset: 2px;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+}
+
+/* Шапка: нэймплейт как у газеты */
+.masthead {
+    color: #fff;
+    background: var(--ink);
+}
+
+.masthead__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        'date'
+        'title'
+        'search'
+        'nav';
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 20px var(--gutter) 0;
+}
+
+.masthead__date {
+    grid-area: date;
+    margin: 0;
     font-size: 14px;
-    color: #333;
-    text-align: center;
+    color: #b9c2d6;
 }
-footer .copyright a {
-    color: #444;
+
+.masthead__title {
+    grid-area: title;
+    margin: 4px 0 16px;
+    font-family: var(--serif);
+    font-size: clamp(44px, 9vw, 112px);
+    font-weight: 600;
+    font-variation-settings: 'opsz' 72;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
 }
-footer .copyright a:hover {
-    color: #555;
+
+.masthead .search {
+    grid-area: search;
+    margin-bottom: 16px;
 }
-footer .copyright:before {
-    content: '©';
+
+.top-sources {
+    grid-area: nav;
+}
+
+@media (min-width: 768px) {
+    .masthead__inner {
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+        grid-template-areas:
+            'date search'
+            'title title'
+            'nav nav';
+        align-items: center;
+        column-gap: 32px;
+    }
+
+    .masthead .search {
+        margin-bottom: 0;
+    }
+}
+
+/* Заголовок раздела: название источника в цвете его категории */
+.section-head {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 6px solid var(--cat);
+}
+
+.section-head[hidden] {
+    display: none;
+}
+
+.section-head__title {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--cat);
+}
+
+.section-head__text {
+    max-width: 62ch;
+    margin: 8px 0 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+/* Футер */
+.footer {
+    margin-top: 64px;
+    padding: 24px var(--gutter);
+    color: #b9c2d6;
+    background: var(--ink);
+}
+
+.footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    max-width: calc(var(--page) - 2 * var(--gutter));
+    margin: 0 auto;
+    font-size: 14px;
+}
+
+.footer__info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 16px;
+    margin: 0;
+}
+
+.footer__year::before {
+    content: '© ';
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.35);
+    text-underline-offset: 3px;
+}
+
+.footer a:hover {
+    text-decoration-color: #fff;
+}
+
+.footer__rss {
+    border-radius: 50%;
+}
+
+.footer__logo {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 479px) {
+    .footer__inner {
+        flex-direction: column;
+        text-align: center;
+    }
 }
