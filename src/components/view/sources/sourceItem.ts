@@ -1,3 +1,4 @@
+import { LOGO_HOST_OVERRIDES } from '../../../config';
 import { Source } from '../../../types';
 import { getElement } from '../../../utils/dom';
 
@@ -30,7 +31,8 @@ export function createSourceItem(source: Readonly<Source>): HTMLButtonElement {
 function getLogoUrl(siteUrl: string): string | null {
     try {
         const { hostname } = new URL(siteUrl);
-        return `${FAVICON_SERVICE}?domain=${hostname}&sz=64`;
+        const host = hostname in LOGO_HOST_OVERRIDES ? LOGO_HOST_OVERRIDES[hostname] : hostname;
+        return host ? `${FAVICON_SERVICE}?domain=${host}&sz=64` : null;
     } catch {
         return null;
     }
