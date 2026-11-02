@@ -5,6 +5,17 @@
     margin: 16px auto 0;
 }
 
+.news__empty {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 48px 16px;
+    border: 1px dashed #3a3b42;
+    border-radius: 5px;
+    color: #8a8b91;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
 .news__item {
     display: flex;
     flex-direction: column;

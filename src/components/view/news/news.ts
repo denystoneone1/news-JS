@@ -4,6 +4,14 @@ import './news.css';
 
 class News {
     public draw(data: Readonly<Article[]>): void {
+        const newsContainer = getElement(document, '.news');
+        newsContainer.innerHTML = '';
+
+        if (data.length === 0) {
+            newsContainer.append(this.createEmptyMessage());
+            return;
+        }
+
         const news = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
 
         const fragment = document.createDocumentFragment();
@@ -32,9 +40,14 @@ class News {
             fragment.append(newsClone);
         });
 
-        const newsContainer = getElement(document, '.news');
-        newsContainer.innerHTML = '';
         newsContainer.appendChild(fragment);
+    }
+
+    private createEmptyMessage(): HTMLParagraphElement {
+        const message = document.createElement('p');
+        message.className = 'news__empty';
+        message.textContent = 'This source has no news right now. Try another one.';
+        return message;
     }
 }
 
