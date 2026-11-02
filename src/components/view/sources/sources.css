@@ -121,3 +121,19 @@
 .top-sources__all:focus-visible {
     outline-color: #fff;
 }
+
+/* На телефоне кнопка короче: "All 125". Слово "sources" скрыто только визуально, скринридер его читает */
+@media (max-width: 639px) {
+    .top-sources__word {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .top-sources__all {
+        padding: 0 12px;
+    }
+}
