@@ -1,13 +1,19 @@
 // Статус ответа: может быть только одна из двух строк (union type)
 export type ResponseStatus = 'ok' | 'error';
 
+// Категории источников News API (union type)
+export type Category = 'business' | 'entertainment' | 'general' | 'health' | 'science' | 'sports' | 'technology';
+
+// Фильтр во вкладках: конкретная категория или все сразу
+export type CategoryFilter = Category | 'all';
+
 // Один источник: элемент массива "sources"
 export interface Source {
     id: string;
     name: string;
     description: string;
     url: string;
-    category: string;
+    category: Category;
     language: string;
     country: string;
 }
