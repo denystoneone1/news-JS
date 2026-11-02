@@ -29,7 +29,8 @@ const baseConfig = {
         path: path.resolve(__dirname, './dist'),
     },
     plugins: [
-        new DotenvWebpackPlugin(),
+        // systemvars: переменные окружения (например, API_URL из скрипта deploy) важнее значений из .env
+        new DotenvWebpackPlugin({ systemvars: true }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
