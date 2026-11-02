@@ -1,9 +1,12 @@
+import { DEFAULT_SOURCE_ID } from '../../config';
 import AppController from '../controller/controller';
 import { AppView } from '../view/appView';
 
 class App {
     private readonly controller: AppController;
     private readonly view: AppView;
+    private currentSourceId: string | null = null;
+    private lastRequestId = 0;
 
     constructor() {
         this.controller = new AppController();
@@ -11,18 +14,43 @@ class App {
     }
 
     public start(): void {
-        const sources = document.querySelector<HTMLElement>('.sources');
-        if (!sources) throw new Error('Element .sources not found');
-
         this.view.drawDate();
 
-        sources.addEventListener('click', (e: MouseEvent) => {
-            const item = e.target instanceof Element ? e.target.closest<HTMLElement>('.source__item') : null;
-            if (item && !item.classList.contains('source__item--active')) this.view.selectSource(item);
+        // Источники есть в трех местах (топ, поиск, каталог): ловим клики по всем сразу
+        document.addEventListener('click', (e: MouseEvent) => this.handleClick(e));
 
-            this.controller.getNews(e, (data) => this.view.drawNews(data));
+        this.controller.getSources((data) => {
+            this.view.drawSources(data);
+
+            const defaultSource = this.view.getDefaultSource(DEFAULT_SOURCE_ID);
+            if (defaultSource) this.selectSource(defaultSource.id);
         });
-        this.controller.getSources((data) => this.view.drawSources(data));
+    }
+
+    private handleClick(e: MouseEvent): void {
+        if (!(e.target instanceof Element)) return;
+
+        const item = e.target.closest<HTMLElement>('[data-source-id]');
+        const sourceId = item?.dataset.sourceId;
+        if (sourceId) this.selectSource(sourceId);
+    }
+
+    private selectSource(sourceId: string): void {
+        this.view.closeSourcePickers();
+        if (sourceId === this.currentSourceId) return;
+
+        const source = this.view.findSource(sourceId);
+        if (!source) return;
+
+        this.currentSourceId = sourceId;
+        this.view.selectSource(source);
+
+        // Если быстро выбрать два источника подряд, ответ на первый запрос может прийти позже.
+        // Номер запроса не дает старому ответу перерисовать новости
+        const requestId = ++this.lastRequestId;
+        this.controller.getNews(sourceId, (data) => {
+            if (requestId === this.lastRequestId) this.view.drawNews(data);
+        });
     }
 }
 

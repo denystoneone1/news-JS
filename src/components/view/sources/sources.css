@@ -1,70 +1,123 @@
-.sources {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px 4px;
-    max-height: 132px;
-    margin: 0 calc(var(--gutter) * -1);
-    padding: 16px var(--gutter);
-    overflow-y: auto;
-    border-bottom: 1px solid var(--rule);
-    scrollbar-width: thin;
-    scrollbar-color: var(--rule) transparent;
-}
-
+/* Кнопка источника: общая для топа, поиска и каталога */
 .source__item {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    color: var(--text);
+    gap: 10px;
+    max-width: 100%;
+    padding: 8px 10px;
+    color: inherit;
     background: none;
     border: 0;
     border-radius: 3px;
     font-size: 15px;
     line-height: 1.2;
+    text-align: left;
     cursor: pointer;
 }
 
-.source__item[hidden] {
-    display: none;
-}
-
-/* Цветная метка категории перед названием */
-.source__item::before {
-    content: '';
+.source__logo {
     flex-shrink: 0;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--cat);
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background: #fff;
+    object-fit: contain;
 }
 
-.source__item:hover .source__item-name {
-    text-decoration: underline;
-    text-decoration-color: var(--cat);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
-}
-
-.source__item--active {
+/* Логотипа нет: первая буква на цвете категории */
+.source__logo--letter {
+    display: inline-grid;
+    place-items: center;
     color: #fff;
     background: var(--cat);
-}
-
-.source__item--active::before {
-    background: #fff;
-}
-
-.source__item--active:hover .source__item-name {
-    text-decoration: none;
+    font-family: var(--serif);
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .source__item-name {
+    overflow: hidden;
     white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-@media (min-width: 768px) {
-    .sources {
-        max-height: 156px;
-    }
+/* Популярные источники в шапке */
+.top-sources {
+    display: flex;
+    align-items: stretch;
+    margin: 0 calc(var(--gutter) * -1);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.top-sources__list {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: 4px;
+    margin: 0;
+    padding: 0 var(--gutter);
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.top-sources .source__item {
+    height: 100%;
+    padding: 12px 10px 10px;
+    color: #d5dbe8;
+    border-bottom: 4px solid transparent;
+    border-radius: 0;
+}
+
+.top-sources li:first-child .source__item {
+    padding-left: 0;
+}
+
+.top-sources .source__item:hover {
+    color: #fff;
+}
+
+.top-sources .source__item--active {
+    color: #fff;
+    border-bottom-color: var(--cat);
+}
+
+.top-sources__all {
+    flex-shrink: 0;
+    margin: 8px var(--gutter) 8px 0;
+    padding: 0 14px;
+    color: var(--ink);
+    background: #fff;
+    border: 0;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Плавное затухание списка перед кнопкой: видно, что список прокручивается */
+.top-sources__all::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 100%;
+    bottom: -8px;
+    width: 40px;
+    background: linear-gradient(to right, transparent, var(--ink));
+    pointer-events: none;
+}
+
+.top-sources__all:hover {
+    background: #e4e8f0;
+}
+
+.top-sources__count {
+    margin-left: 2px;
+    font-weight: 400;
+    color: var(--muted);
+}
+
+.top-sources__all:focus-visible {
+    outline-color: #fff;
 }

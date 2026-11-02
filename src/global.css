@@ -84,18 +84,27 @@ main {
 }
 
 .masthead__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        'date'
+        'title'
+        'search'
+        'nav';
     max-width: var(--page);
     margin: 0 auto;
     padding: 20px var(--gutter) 0;
 }
 
 .masthead__date {
+    grid-area: date;
     margin: 0;
     font-size: 14px;
     color: #b9c2d6;
 }
 
 .masthead__title {
+    grid-area: title;
     margin: 4px 0 16px;
     font-family: var(--serif);
     font-size: clamp(44px, 9vw, 112px);
@@ -105,51 +114,29 @@ main {
     letter-spacing: -0.025em;
 }
 
-/* Вкладки категорий */
-.categories {
-    display: flex;
-    gap: 4px;
-    margin: 0 calc(var(--gutter) * -1);
-    padding: 0 var(--gutter);
-    overflow-x: auto;
-    scrollbar-width: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
+.masthead .search {
+    grid-area: search;
+    margin-bottom: 16px;
 }
 
-.categories__item {
-    flex-shrink: 0;
-    padding: 14px 12px 12px;
-    color: #d5dbe8;
-    background: none;
-    border: 0;
-    border-bottom: 4px solid transparent;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
+.top-sources {
+    grid-area: nav;
 }
 
-.categories__item:first-child {
-    padding-left: 0;
-}
+@media (min-width: 768px) {
+    .masthead__inner {
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+        grid-template-areas:
+            'date search'
+            'title title'
+            'nav nav';
+        align-items: center;
+        column-gap: 32px;
+    }
 
-.categories__item:hover {
-    color: #fff;
-}
-
-.categories__item[aria-pressed='true'] {
-    color: #fff;
-    border-bottom-color: var(--cat);
-}
-
-.categories__item[data-category='all'] {
-    --cat: #fff;
-}
-
-.categories__count {
-    margin-left: 4px;
-    font-size: 13px;
-    font-weight: 400;
-    color: #8f9bb6;
+    .masthead .search {
+        margin-bottom: 0;
+    }
 }
 
 /* Заголовок раздела: название источника в цвете его категории */

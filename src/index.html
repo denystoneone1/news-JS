@@ -16,18 +16,35 @@
         <header class="masthead">
             <div class="masthead__inner">
                 <p class="masthead__date"></p>
+                <div class="search" role="search">
+                    <label class="search__label" for="source-search">Find a source</label>
+                    <input
+                        id="source-search"
+                        class="search__input"
+                        type="search"
+                        placeholder="Find a source"
+                        autocomplete="off"
+                        aria-controls="search-results"
+                        aria-expanded="false"
+                    />
+                    <ul id="search-results" class="search__results" hidden></ul>
+                </div>
                 <h1 class="masthead__title">News Portal</h1>
-                <nav class="categories" aria-label="Source categories"></nav>
+                <nav class="top-sources" aria-label="Popular sources">
+                    <ul class="top-sources__list"></ul>
+                    <button type="button" class="top-sources__all" aria-haspopup="dialog">
+                        All sources <span class="top-sources__count"></span>
+                    </button>
+                </nav>
             </div>
         </header>
         <main>
-            <div class="sources buttons" aria-label="News sources"></div>
             <section class="section-head" hidden>
                 <h2 class="section-head__title"></h2>
                 <p class="section-head__text"></p>
             </section>
             <div class="news" aria-live="polite">
-                <p class="news__empty">Choose a source to see its latest stories.</p>
+                <p class="news__empty">Loading sources…</p>
             </div>
         </main>
         <footer class="footer">
@@ -59,8 +76,18 @@
             </div>
         </footer>
 
+        <dialog class="catalog" aria-labelledby="catalog-title">
+            <div class="catalog__head">
+                <h2 id="catalog-title" class="catalog__title">All sources</h2>
+                <button type="button" class="catalog__close">Close</button>
+            </div>
+            <nav class="categories" aria-label="Filter sources by category"></nav>
+            <div class="catalog__list"></div>
+        </dialog>
+
         <template id="sourceItemTemp">
             <button type="button" class="source__item">
+                <img class="source__logo" src="" alt="" width="20" height="20" loading="lazy" />
                 <span class="source__item-name"></span>
             </button>
         </template>
