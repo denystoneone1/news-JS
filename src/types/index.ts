@@ -37,3 +37,33 @@ export interface ArticlesResponse {
     totalResults: number;
     articles: Article[];
 }
+
+// Эндпоинты API (enum)
+export enum Endpoint {
+    Sources = 'sources',
+    Everything = 'everything',
+}
+
+// HTTP-статусы, на которые реагирует errorHandler (enum)
+export enum HttpStatus {
+    Unauthorized = 401,
+    NotFound = 404,
+}
+
+// HTTP-метод запроса (union type)
+export type HttpMethod = 'GET' | 'POST';
+
+// Query-параметры запроса
+export interface QueryOptions {
+    apiKey: string;
+    sources: string;
+}
+
+// Параметры для getResp
+export interface RequestParams {
+    endpoint: Endpoint;
+    options?: Partial<QueryOptions>;
+}
+
+// Тип функции-колбэка (generic + function type)
+export type Callback<T> = (data: T) => void;
